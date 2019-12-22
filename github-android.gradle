@@ -1,0 +1,27 @@
+apply plugin: 'maven-publish'
+
+apply from: 'https://raw.githubusercontent.com/sw-code/public-packages/master/githubproperties.gradle'
+
+
+version = libraryVersion
+
+publishing {
+    publications {
+        bar(MavenPublication) {
+            groupId publishedGroupId
+            artifactId artifactId
+            version libraryVersion
+            artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/sw-code/public-packages
+            credentials {
+                username = project.githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
+                password = project.githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
+            }
+        }
+    }
+}

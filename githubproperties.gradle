@@ -1,0 +1,5 @@
+def githubPropertiesFilePath =System.properties['GITHUB_PROPERTIES_FILE'] ?: "${System.properties['user.home']}/.github/properties"
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream(rootProject.file(githubPropertiesFilePath)))
+
+project.ext.githubProperties = githubProperties
